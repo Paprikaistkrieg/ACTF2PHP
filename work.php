@@ -1,35 +1,44 @@
-<?php // Declaramos el inicio del código PHP
-// Declaración de la clase
+<?php
+// Clase base Coche
 class Coche {
-    // Atributos (propiedades)
-    private $marca;
-    private $modelo;
+    // Atributos protegidos: accesibles en esta clase y en clases hijas
+    protected $marca;
+    protected $modelo;
 
-    // Constructor
+    // Constructor: inicializa los atributos al crear el objeto
     public function __construct($marca, $modelo) {
         $this->marca = $marca;
         $this->modelo = $modelo;
     }
 
-    // Método para mostrar información
+    // Método para mostrar información del coche
     public function mostrarInfo() {
-        echo "Coche: " . $this->marca . " - " . $this->modelo . "\n";
+        echo "Coche: {$this->marca} - {$this->modelo}\n";
+    }
+}
+
+// Clase hija que hereda de Coche
+class CocheElectrico extends Coche {
+    // Atributo adicional exclusivo de los coches eléctricos
+    private $bateria;
+
+    // Constructor: llama al constructor de la clase padre con 'parent::__construct'
+    public function __construct($marca, $modelo, $bateria) {
+        parent::__construct($marca, $modelo); // inicializa marca y modelo
+        $this->bateria = $bateria;            // inicializa batería
     }
 
-    // Método para cambiar el modelo
-    public function setModelo($nuevoModelo) {
-        $this->modelo = $nuevoModelo;
+    // Sobrescribe el método mostrarInfo para incluir la batería
+    public function mostrarInfo() {
+        echo "Coche eléctrico: {$this->marca} - {$this->modelo}, Batería: {$this->bateria} kWh\n";
     }
 }
 
 // Instanciación de objetos
-$coche1 = new Coche("Toyota", "Corolla");
-$coche2 = new Coche("Honda", "Civic");
+$coche1 = new Coche("Toyota", "Corolla");          // objeto de la clase base
+$coche2 = new CocheElectrico("Tesla", "Model 3", 75); // objeto de la clase hija
 
 // Uso de métodos
-$coche1->mostrarInfo();   // Muestra: Toyota - Corolla
-$coche2->mostrarInfo();   // Muestra: Honda - Civic
-
-$coche1->setModelo("Yaris"); // Cambiamos el modelo
-$coche1->mostrarInfo();      // Muestra: Toyota - Yaris
-?> 
+$coche1->mostrarInfo(); // Muestra: Coche: Toyota - Corolla
+$coche2->mostrarInfo(); // Muestra: Coche eléctrico: Tesla - Model 3, Batería: 75 kWh
+?>
